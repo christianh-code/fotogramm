@@ -1,16 +1,25 @@
 
 let gallery = document.getElementById("gallery");
-
 let photos = ["Alaska.png", "Anime.png", "blue_tit.png", "clouds.png", "hurricane.png", "lake.png", "moorente.png", "sea.png", "snow_leopard.png", "snow-bunting.png", "travel.png", "winter.png"];
-
-for (let index = 0; index < photos.length; index++) {
-
-    gallery.innerHTML += `<img src="./assets/img/${photos[index]}" onclick="openOverlay(${index})">`;
-
-}
-
-let overlaySection = document.getElementById("overlay-section");
+let overlaySection = document.getElementById("overlaySection");
 let currentIndex = 0;
+
+
+function renderGallery() {
+
+    for (let index = 0; index < photos.length; index++) {
+
+        gallery.innerHTML += `
+            <img
+                src="./assets/img/${photos[index]}"
+                tabindex="0"
+                onclick="openOverlay(${index})"
+                onkeydown="if (event.key === 'Enter') openOverlay(${index})"
+            >
+        `;
+
+    }
+}
 
 
 function openOverlay(index) {
@@ -18,7 +27,9 @@ function openOverlay(index) {
     currentIndex = index;
 
     overlaySection.innerHTML = `
-        <dialog id="overlay" onclose="overlaySection.innerHTML = ''">
+        <dialog id="overlay"
+            onclose="overlaySection.innerHTML = ''"
+            onclick="if (event.target === this) closeOverlay()">
 
             <h3 id="imageTitle">${photos[index]}</h3>
 
